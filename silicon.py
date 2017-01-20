@@ -21,7 +21,7 @@ cmds = ["pair_coeff * * ",
     "angle_coeff * 100.0 109.47", 
     "fix 1 all nve"]
 
-lat_dims=(1,1,1)
+lat_dims=(2,2,2)
 atoms = Diamond( symbol='Si', size=lat_dims )
 print(atoms.get_positions())
 
@@ -57,3 +57,26 @@ from lammps import IPyLammps
 
 L = IPyLammps()
 L.units('real')
+L.dimension(3)
+L.boundary('p p p')
+L.atom_style('full')
+L.read_data("./silicon.data")
+L.pair_style('zero', 10.0)
+L.bond_style('harmonic')
+L.angle_style('harmonic')
+
+L.pair_coeff('*', '*')
+L.bond_coeff('*',100.0,2.351)
+L.angle_coeff('*',100.0,109.47)
+
+L.neighbor(5.0,'bin')
+L.fix('1 all nve')
+L.dump('1 all atom 100 dump.silicon.lammpstrj')
+
+L.velocity('all create 300.0 2341')
+
+L.command('thermo_style custom step time etotal pe ke')
+L.thermo(100)
+
+L.command('run 5000')
+#MPI.Finalize()

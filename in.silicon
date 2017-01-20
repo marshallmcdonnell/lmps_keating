@@ -23,4 +23,4 @@ dump 1 all atom 100 dump.silicon.lammpstrj
 
 run 10000
 
-
+#create_bonds all all 1 1.0 5.5
