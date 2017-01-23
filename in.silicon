@@ -5,7 +5,7 @@ atom_style full
 
 read_data silicon.data
 
-pair_style zero 10.0
+pair_style zero 5.5 
 bond_style harmonic
 angle_style harmonic
 
@@ -19,8 +19,33 @@ velocity all create 300.0 2341
 
 fix 1 all nve
 
-dump 1 all atom 100 dump.silicon.lammpstrj
+#dump 1 all atom 100 dump.silicon.lammpstrj
 
-run 10000
+group myGroup id 1 2 3 4
 
-#create_bonds all all 1 1.0 5.5
+group A id 1
+group B id 2
+group C id 3
+group D id 4
+group AB id 1 2
+group BC id 2 3
+group CD id 3 4
+group AC id 1 3
+group BD id 2 4
+
+compute nbnds all property/atom nbonds
+dump 2 all custom 1 dump.bonds c_nbnds
+
+run 1 
+
+delete_bonds all stats
+delete_bonds AB bond 1 remove
+delete_bonds CD bond 1 remove
+
+run 1
+
+create_bonds A C 1 1.0 4.0 
+
+run 1
+
+create_angles AB AC 1 
