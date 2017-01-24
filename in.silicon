@@ -39,13 +39,17 @@ group ABCD union A B C D
 run 1
 
 delete_bonds all stats
-delete_bonds AB bond * remove
-delete_bonds CD bond * remove
+delete_bonds AB bond * remove special
+delete_bonds CD bond * remove special
 
-run 1
+run 0 
 
 create_bonds A C 1 1.0 7.5 
 
-run 1
+run 0
+
+create_bonds A C 1 1.0 7.5 
+
+run 0
 
 #create_angles  

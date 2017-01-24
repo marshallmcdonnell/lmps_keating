@@ -6,3 +6,4 @@ dump.*
 *.png
 *.txt
 .ipynb_checkpoints/
+out.*
